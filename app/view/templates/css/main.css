@@ -1,0 +1,39 @@
+html
+{
+	height: 100%;
+	background-color: #555555;
+}
+
+p
+{
+    text-align: center;
+	color: #ffffff;
+}
+
+
+table, th, td
+{
+  text-align: center;
+  color: #ffffff;
+  padding: 40px;
+  text-align: center;
+  
+}
+
+th
+{
+
+	color: #ded4d4;
+}
+
+.todosActual
+{
+	font-size: 30px;
+	color: #ffffff;
+}
+
+#error
+{
+	background-color: #ac1313;
+	color: #524949;
+}

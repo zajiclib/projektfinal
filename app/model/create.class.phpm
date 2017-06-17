@@ -1,0 +1,21 @@
+<?php
+
+namespace model; 
+
+require_once("mysql.class.phpm"); 
+
+class create
+{
+    public function __construct($name, $content)
+    {
+        $mysql = new \mysql;
+        $mysql->setMysqlConnParam("mysql:host=localhost;dbname=todosystem;charset=UTF8", "todosystemuser", "Aen7ieTh");
+        $mysql->connect();
+
+        $store = $mysql->queryWithStatements("INSERT INTO tasks (name, content, creator)
+                                              VALUES (?, ?, ?)", [$name, $content, $_SESSION["userName"]]); 
+
+        return $store; 
+        
+    }
+}

@@ -1,0 +1,21 @@
+<?php
+
+namespace model; 
+
+require_once("mysql.class.phpm"); 
+
+class delete
+{
+    public function __construct($id)
+    {
+        $mysql = new \mysql();
+        $mysql->setMysqlConnParam("mysql:host=localhost;dbname=todosystem;charset=UTF8", "todosystemuser", "Aen7ieTh");
+        $mysql->connect();
+        
+        $query = $mysql->queryWithStatements("DELETE  
+                                              FROM tasks
+                                              WHERE id = ?", $id); 
+        return $query;
+        
+    }
+}

@@ -1,0 +1,33 @@
+<?php
+
+namespace model;
+
+require_once("mysql.class.phpm");
+
+class registration
+{     
+    public function registerUser($email, $password, $admin)
+    {
+        
+        $salt = "08xcv0as4998hasd123}{!@}{"; 
+
+        $mysql = new \mysql();
+        $mysql->setMysqlConnParam("mysql:host=localhost;dbname=todosystem;charset=UTF8", "todosystemuser", "Aen7ieTh"); 
+        $mysql->connect();
+        
+        $hash = crypt($password, $salt); 
+        
+        $params = [
+            
+            $email,
+            $hash, 
+            $admin
+                   ];
+        
+        $query = $mysql->queryWithStatements("INSERT INTO users (email, password, admin)
+                                              VALUES (?,?,?)", $params); 
+
+        
+        return ($query == false) ? false : true; 
+    }
+}

@@ -1,0 +1,60 @@
+<?php
+
+
+namespace model; 
+
+require_once("mysql.class.phpm"); 
+
+class login
+{
+
+    private $mysql;
+
+
+    
+    public function __construct()
+    {        
+        $this->mysql = new \mysql;
+        $this->mysql->setMysqlConnParam("mysql:host=localhost;dbname=todosystem;charset=UTF8", "todosystemuser", "Aen7ieTh");
+        $this->mysql->connect();
+    }
+
+
+    
+    public function login($email, $password)
+    {        
+        $salt = "08xcv0as4998hasd123}{!@}{";
+        
+        $emailQuery = $this->mysql->queryWithStatements("SELECT * 
+                                                         FROM users
+                                                         WHERE email = ?", $email);
+        
+        if($emailQuery != false)
+        {
+            $userData = $emailQuery->fetch(\PDO::FETCH_ASSOC); 
+            
+            return (hash_equals($userData["password"], crypt($password, $salt))) ? true : false;
+        }
+        
+        else
+        {
+            return false;
+        }
+        
+    }
+
+    
+
+    public function checkAdminRights($email)
+    {
+        $check = $this->mysql->queryWithStatements("SELECT admin
+                                                    FROM users
+                                                    WHERE email = ?", $email); 
+
+        $result  = $check->fetch(\PDO::FETCH_ASSOC);
+
+        
+        return $result;
+    }
+        
+}

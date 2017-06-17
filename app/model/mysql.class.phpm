@@ -1,0 +1,91 @@
+<?php
+
+class mysql
+{ 
+    private $connect; 
+    private $dsn;
+    private $user;
+    private $pass; 
+    
+    public function setMysqlConnParam($dsn, $user, $pass)
+    {
+        
+        $this->dsn = $dsn;
+        $this->user = $user;
+        $this->pass = $pass; 
+        
+    } 
+    
+    
+    public function connect()
+    { 
+        
+        try
+        { 
+            $this->connect = new PDO($this->dsn, $this->user, $this->pass);
+        }
+        
+        catch(PDOException $e)
+        {
+            return  false; 
+        }
+    }
+    
+    
+    public function query($clSql)
+    {  
+        
+        $query = $this->connect->prepare($clSql); 
+        $query->execute(); 
+        return $query; 
+        
+    } 
+    
+    
+    public function queryWithStatements($sql, $statements)
+    { 
+        
+        $query = $this->connect->prepare($sql);
+        
+        if(is_array($statements))
+        {
+            $query->execute($statements);
+        }
+        
+        else
+        { 
+            
+            $query->bindValue(1, $statements); 
+            $query->execute(); 
+        }     
+        
+        return $query; 
+    }
+    
+    public function beginTransaction()
+    { 
+        
+        $this->connect->beginTransaction(); 
+        
+    } 
+    
+    public function commit()
+    { 
+        
+        $this->connect->commit(); 
+        
+    } 
+    
+    public function roolback()
+    { 
+        
+        $this->connect->rollback(); 
+        
+    }
+    public function lastId() {
+        
+       return  $this->connect->lastInsertId();
+        
+    }
+    
+} 

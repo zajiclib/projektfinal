@@ -1,0 +1,34 @@
+<?php
+
+namespace model; 
+
+require_once("mysql.class.phpm");  
+
+class update
+{
+
+    public function __construct($id, $name, $content, $finished)
+    {
+        $mysql = new \mysql;
+        $mysql->setMysqlConnParam("mysql:host=localhost;dbname=todosystem;charset=UTF8", "todosystemuser", "Aen7ieTh");
+        $mysql->connect(); 
+        
+
+        if($name !== "")
+        {            
+            $mysql->queryWithStatements("UPDATE tasks SET name = ? WHERE id = ?", [$name, $id]);  
+        }
+
+        
+        if($content !== "")
+        {
+            $mysql->queryWithStatements("UPDATE tasks SET content = ? WHERE id = ?", [$content, $id]);  
+        }
+
+        
+        if($finished !== "")
+        {
+            $mysql->queryWithStatements("UPDATE tasks SET finished = ? WHERE id = ? ", [$finished, $id]); 
+        }
+    }
+}

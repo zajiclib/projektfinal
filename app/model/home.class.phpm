@@ -1,0 +1,37 @@
+<?php
+
+namespace model;
+
+require_once("mysql.class.phpm");  
+
+class home
+{
+
+    private $mysql;
+
+
+    public function __construct()
+    {
+        $this->mysql = new \mysql;
+        $this->mysql->setMysqlConnParam("mysql:host=localhost;dbname=todosystem;charset=UTF8", "todosystemuser", "Aen7ieTh");
+        $this->mysql->connect();
+
+    }
+
+    
+    
+    public function getData()
+    {
+        $query = $this->mysql->queryWithStatements("SELECT id, name, content, finished, created
+                                                    FROM tasks
+                                                    WHERE creator = ?", $_SESSION["userName"]); 
+
+        $result = $query->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $result; 
+
+    }
+        
+    
+        
+}
